@@ -1,0 +1,45 @@
+kubectl exec -it nginx-7587c6fdb6-zsxjw -- /bin/bash
+
+
+
+kubectl run nginx --image=nginx --port=80
+kubectl expose pod <pod-name> --name=service-nginx --type=LoadBalancer
+
+gcloud compute disks list
+gcloud compute disks create shashank-disk1 --size=1GB
+
+kubectl create configmap fmap --from-file=dbURL.txt --from-file=externalURL.txt
+kubectl get configmaps fmap -o yaml
+
+kubectl config current-context
+kubectl config view
+gcloud config view
+
+kubectl expose deployment base-nginx-deployment --type="LoadBalancer" --name="base-nginx-lb"
+
+kubectl get service <service name> -o yaml
+
+kubectl rollout pause deployment base-nginx-deployment
+
+kubectl apply -f base-nginx-deployment.yaml
+
+__________________________________________________________________________________
+                    Docker
+__________________________________________________________________________________
+
+docker image build -t skc-nginx -f nginxDockerFile .
+
+Containers 
+docker container rm $(docker container ls -a -q)
+docker  rm $(docker ps -aq)
+
+Images 
+docker image rm $(docker image ls -a -q)
+Volumes 
+docker volume rm $(docker volume ls -q)
+Networks 
+docker network rm $(docker network ls -q)
+
+sudo docker run -d --rm --name nginx-app -p 8081:80 skc-nginx
+
+sudo docker exec -it nginx-app /bin/sh

@@ -1,0 +1,1 @@
+gcloud container clusters create shashank-cluster --num-nodes 1

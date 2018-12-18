@@ -1,0 +1,1 @@
+kubectl expose deployment base-nginx-deployment --type="LoadBalancer" --name="base-nginx-lb"

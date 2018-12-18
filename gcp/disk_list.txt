@@ -1,0 +1,7 @@
+NAME                                                 ZONE            SIZE_GB  TYPE         STATUS
+gke-dhruvs-test-cluster--default-pool-3f402bb7-4700  europe-west2-c  100      pd-standard  READY
+gke-dhruvs-test-cluster--default-pool-64f6bea1-cpx7  europe-west2-b  100      pd-standard  READY
+example-instance-iq                                  europe-west2-a  10       pd-standard  READY
+gke-dhruvs-test-cluster--default-pool-7e525d4f-wmtb  europe-west2-a  100      pd-standard  READY
+gke-shashank-cluster-default-pool-751529c0-985g      europe-west2-a  100      pd-standard  READY
+shashank-disk1                                       europe-west2-a  1        pd-standard  READY

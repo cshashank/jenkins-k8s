@@ -1,0 +1,2 @@
+NAME                                              STATUS    ROLES     AGE       VERSION
+gke-shashank-cluster-default-pool-751529c0-985g   Ready     <none>    1h        v1.9.7-gke.11

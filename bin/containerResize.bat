@@ -1,0 +1,1 @@
+gcloud container clusters resize shashank-cluster --size 2

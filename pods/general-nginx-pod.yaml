@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: skcnginx
+spec:
+ containers:
+ - name: web
+   image: nginx

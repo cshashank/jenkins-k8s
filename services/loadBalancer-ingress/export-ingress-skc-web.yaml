@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: 2018-12-07T02:25:10Z
+  labels:
+    app: base-nginx
+  name: base-nginx-lb
+  namespace: default
+  resourceVersion: "137529"
+  selfLink: /api/v1/namespaces/default/services/base-nginx-lb
+  uid: 51c77cc0-f9c7-11e8-bc08-42010a9a00f7
+spec:
+  clusterIP: 10.15.244.22
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 31928
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: base-nginx
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 35.197.226.227

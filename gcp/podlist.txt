@@ -1,0 +1,3 @@
+NAME                                        READY   STATUS    RESTARTS   AGE
+base-nginx-ro-deployment-69dc8dfb54-c5f4h   1/1     Running   0          36m
+base-nginx-ro-deployment-69dc8dfb54-wttdv   1/1     Running   0          36m

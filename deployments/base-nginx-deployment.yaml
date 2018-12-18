@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: base-nginx-deployment
+  labels:
+    app: base-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: base-nginx
+  template:
+    metadata:
+      labels:
+        app: base-nginx
+    spec:
+      containers:
+      - name: base-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-doc-root
+          mountPath: /app/vol/html
+        - name: nginx-persistent-root
+          mountPath: /usr/docroot/html
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+      - name: nginx-doc-root
+        emptyDir: {}
+      - name: nginx-persistent-root
+        gcePersistentDisk: 
+         pdName: shashank-disk1
+         fsType: ext4
+      - name: secret-volume
+        secret:
+         secretName: db-secret
+      - name: config-volume
+        configMap:
+         name: fmap
+
