@@ -39,7 +39,7 @@ pipeline {
 				echo 'Building..'
 				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
 	    	        sh "ng build"
-					sh "tar -zcvf dist.tar.gz dist"
+					sh "tar -zcvf html.tar.gz dist/k8s-app/"
 				}
 			}
 		}

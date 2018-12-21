@@ -27,7 +27,7 @@ pipeline {
 			steps {
 			    echo "coppy dist jar from angular build"
 				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles/files') {
-					sh "cp /var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app/dist.tar.gz ."
+					sh "cp /var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app/html.tar.gz ."
 				}
 			}
 		}
