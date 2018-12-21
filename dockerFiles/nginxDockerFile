@@ -14,3 +14,7 @@ EXPOSE 80/tcp
 ENTRYPOINT ["nginx"]
 # ENTRYPOINT ["/bin/sh"]
 CMD ["-g", "daemon off;"]
+
+#Expose ports
+EXPOSE 80
+EXPOSE 443
