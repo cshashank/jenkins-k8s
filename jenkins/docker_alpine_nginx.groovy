@@ -35,7 +35,16 @@ pipeline {
 			steps {
 			    echo "build docker image"
 				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
-					sh "docker build -t j-alpine-nginx -f nginxDockerFile ."
+					sh "docker build -t kasc/angular-nginx:latest -f nginxDockerFile ."
+				}
+			}
+		}
+		stage('push docker image to repository') {
+			steps {
+			    echo "push docker image to repository"
+				dir('/var/lib/jenkins/bin') {
+					sh "./docker_login.sh"
+					sh " docker push kasc/angular-nginx:latest"
 				}
 			}
 		}
