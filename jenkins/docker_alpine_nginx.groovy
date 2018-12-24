@@ -8,6 +8,9 @@ Its very important to restart otherwise the service user will not be able to run
 */
 pipeline {
 	agent any
+	environment{
+		DOCKER_IMAGE = 'kasc/angular-nginx:latest'
+	}
 	stages {
 		stage('delete previous workspace'){
 			steps{
@@ -48,6 +51,26 @@ pipeline {
 				}
 			}
 		}
+		stage('Start angular-container for testing on IST port http://35.230.144.184:8085') {
+			steps {
+			    echo "start container"
+				script{
+					try{
+						sh "docker stop j-nginx-app"
+					}catch(Exception e){
+						echo 'exception while stopping container'
+					}
+				}
+				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
+					sh "docker run -d --rm --name j-nginx-app -p 8085:80 kasc/angular-nginx:latest"
+				}
+			}
+		}
+        stage('Deploy to UAT ?'){
+            steps{
+                input "Deploy to UAT ?"
+            }
+        }		
 
 	}
 }
