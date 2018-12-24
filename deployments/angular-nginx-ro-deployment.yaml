@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-nginx-ro-deployment
+  labels:
+    app: base-nginx-ro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: base-nginx
+  template:
+    metadata:
+      labels:
+        app: base-nginx
+    spec:
+      containers:
+      - name: base-nginx
+        image: kasc/angular-nginx:latest	
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-doc-root
+          mountPath: /app/vol/html
+        - name: secret-volume
+          mountPath: /etc/secret-volume
+        - name: config-volume
+          mountPath: /etc/config
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+      - name: nginx-doc-root
+        emptyDir: {}
+      - name: secret-volume
+        secret:
+         secretName: db-secret
+      - name: config-volume
+        configMap:
+         name: fmap
+
