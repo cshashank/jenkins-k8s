@@ -13,7 +13,8 @@ pipeline {
 		CONTAINER_NAME = 'j-nginx-app'
 		CONTAINER_PORT = '8085'
 		MODE = 'debug'
-		K8S_DEPLOYMENT_NAME = 'angular-nginx-ro-deployment.yaml'
+		K8S_DEPLOYMENT_NAME = 'angular-nginx-ro-deployment'
+		K8S_SERVICE_LOADBALANCER_NAME = 'angular-nginx-lb'
 	}
 	stages {
 		stage('delete previous workspace'){
@@ -86,8 +87,21 @@ pipeline {
 					}
 				}
 				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/deployments') {
-					sh "kubectl create -f "+K8S_DEPLOYMENT_NAME
+					sh "kubectl create -f "+K8S_DEPLOYMENT_NAME+".yaml"
 				}
+            }
+        }		
+        stage('Expose deployment'){
+            steps{
+			    echo "Expose deployment"
+				script{
+					try{
+						sh "kubectl delete service  "+K8S_SERVICE_LOADBALANCER_NAME
+					}catch(Exception e){
+						echo 'exception while deleting a k8s deployment '
+					}
+				}
+				sh "kubectl expose deployment "+K8S_DEPLOYMENT_NAME+" --type=\"LoadBalancer\" --name=\""+K8S_SERVICE_LOADBALANCER_NAME+"\""
             }
         }		
 
