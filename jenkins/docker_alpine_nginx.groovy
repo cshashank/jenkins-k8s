@@ -12,6 +12,7 @@ pipeline {
 		DOCKER_IMAGE = 'kasc/angular-nginx:latest'
 		CONTAINER_NAME = 'j-nginx-app'
 		CONTAINER_PORT = '8085'
+		MODE = 'debug'
 	}
 	stages {
 		stage('delete previous workspace'){
@@ -22,7 +23,7 @@ pipeline {
 				}
 			}
 		}
-		stage('checkout') {
+		stage('checkout') {	
 			steps {
 			    echo "checkout docker files for alpine-nginx"
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '/dockerFiles/'], [path: '']]]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/jenkins-k8s/']]])
