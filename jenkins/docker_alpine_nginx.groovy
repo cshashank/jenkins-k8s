@@ -13,12 +13,13 @@ pipeline {
 		CONTAINER_NAME = 'j-nginx-app'
 		CONTAINER_PORT = '8085'
 		MODE = 'debug'
+		K8S_DEPLOYMENT_NAME = 'angular-nginx-ro-deployment.yaml'
 	}
 	stages {
 		stage('delete previous workspace'){
 			steps{
 				echo "delete previous workspace"
-				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
+				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx') {
 					deleteDir()
 				}
 			}
@@ -26,7 +27,7 @@ pipeline {
 		stage('checkout') {	
 			steps {
 			    echo "checkout docker files for alpine-nginx"
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '/dockerFiles/'], [path: '']]]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/jenkins-k8s/']]])
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '/dockerFiles'], [path: '/deployments']]]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/jenkins-k8s/']]])
 			}
 		}
 		stage('coppy dist jar from angular build') {
@@ -72,6 +73,21 @@ pipeline {
         stage('Deploy to UAT ?'){
             steps{
                 input "Deploy to UAT ?"
+            }
+        }		
+        stage('Deploy Kubernetes cluster'){
+            steps{
+			    echo "start container"
+				script{
+					try{
+						sh "kubectl delete deployment "+K8S_DEPLOYMENT_NAME
+					}catch(Exception e){
+						echo 'exception while deleting a k8s deployment '
+					}
+				}
+				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/deployments') {
+					sh "kubectl create -f "+K8S_DEPLOYMENT_NAME
+				}
             }
         }		
 
