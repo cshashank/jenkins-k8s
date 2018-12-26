@@ -25,7 +25,7 @@ spec:
         - name: secret-volume
           mountPath: /etc/secret-volume
         - name: config-volume
-          mountPath: /etc/config
+          mountPath: /assets/config
       imagePullSecrets:
       - name: regcred
       volumes:
