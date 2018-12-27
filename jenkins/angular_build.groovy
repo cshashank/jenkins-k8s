@@ -7,7 +7,7 @@ pipeline {
 		stage('delete previous workspace'){
 			steps{
 				echo "delete previous workspace"
-				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
+				dir('/var/lib/jenkins/workspace/angular_build/k8s-app') {
 					deleteDir()
 				}
 			}
@@ -22,7 +22,7 @@ pipeline {
 			steps {
 			    echo "install angular-devkit"
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/angular-k8s']]])
-				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
+				dir('/var/lib/jenkins/workspace/angular_build/k8s-app') {
 			        sh "npm install --dev-save @angular-devkit/build-angular"
 				}
 			}
@@ -31,7 +31,7 @@ pipeline {
 			steps {
 				echo 'install angular/core'
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/angular-k8s']]])
-				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
+				dir('/var/lib/jenkins/workspace/angular_build/k8s-app') {
 			        sh "npm install --dev-save @angular/core"
 				}
 			}
@@ -40,7 +40,7 @@ pipeline {
 			steps {
 				echo 'Building..'
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/angular-k8s']]])
-				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
+				dir('/var/lib/jenkins/workspace/angular_build/k8s-app') {
 	    	        sh "ng build"
 				}
 			}
@@ -48,7 +48,7 @@ pipeline {
 		stage('tar build for docker') {
 			steps {
 				echo 'Tar build for docker'
-				dir('/var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app') {
+				dir('/var/lib/jenkins/workspace/angular_build/k8s-app') {
 					sh "tar -zcvf html.tar.gz -C dist/k8s-app ."
 				}
 			}

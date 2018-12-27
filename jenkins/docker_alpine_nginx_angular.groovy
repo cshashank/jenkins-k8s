@@ -13,12 +13,14 @@ pipeline {
 	agent any
 	environment{
 		DOCKER_IMAGE = 'kasc/angular-nginx:latest'
+		ANGULAR_BUILD_TAR = '/var/lib/jenkins/workspace/angular_build/k8s-app/html.tar.gz'
+		DOCKER_ALPINE_NGINX_ANGULAR_WS = '/var/lib/jenkins/workspace/docker_alpine_nginx_angular/'
 	}
 	stages {
 		stage('delete previous workspace'){
 			steps{
 				echo "delete previous workspace"
-				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
+				dir(DOCKER_ALPINE_NGINX_ANGULAR_WS+'dockerFiles') {
 					deleteDir()
 				}
 			}
@@ -29,19 +31,20 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: '/dockerFiles/'], [path: '']]]], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/cshashank/jenkins-k8s/']]])
 			}
 		}
-		stage('coppy dist jar from angular build') {
+		stage('copy dist jar from angular build') {
 			steps {
-			    echo "coppy dist jar from angular build"
-				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles/files') {
-					sh "cp /var/lib/jenkins/workspace/skc-nginx-pipeline/k8s-app/html.tar.gz ."
+			    echo "copy dist jar from angular build"
+				dir(DOCKER_ALPINE_NGINX_ANGULAR_WS+'dockerFiles/files') {
+					sh "cp "+ANGULAR_BUILD_TAR+" ."
 				}
 			}
 		}
 		stage('build docker image') {
 			steps {
 			    echo "build docker image"
-				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
-					sh "docker build -t "+${DOCKER_IMAGE}+" -f nginxDockerFile ."
+				echo "docker build -t "+DOCKER_IMAGE+" -f nginxDockerFile ."
+				dir(DOCKER_ALPINE_NGINX_ANGULAR_WS+'dockerFiles') {
+					sh "docker build -t "+DOCKER_IMAGE+" -f nginxDockerFile ."
 				}
 			}
 		}
@@ -64,7 +67,7 @@ pipeline {
 						echo 'exception while stopping container'
 					}
 				}
-				dir('/var/lib/jenkins/workspace/Docker_alpine_nginx/dockerFiles') {
+				dir(DOCKER_ALPINE_NGINX_ANGULAR_WS+'dockerFiles') {
 					sh "docker run -d --rm --name j-nginx-app -p 8085:80 kasc/angular-nginx:latest"
 				}
 			}
