@@ -5,6 +5,9 @@ Make sure to add the jenkins user to the dockers group
 sudo usermod -aG docker jenkins 
 sudo service jenkins restart 
 Its very important to restart otherwise the service user will not be able to run docker commands
+************************************************************************** 
+* This pipeline depends on the angular_build pipeline to have run before *
+**************************************************************************
 */
 pipeline {
 	agent any
@@ -66,11 +69,6 @@ pipeline {
 				}
 			}
 		}
-        stage('Deploy to UAT ?'){
-            steps{
-                input "Deploy to UAT ?"
-            }
-        }		
 
 	}
 }
