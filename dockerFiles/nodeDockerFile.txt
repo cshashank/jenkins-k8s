@@ -1,16 +1,14 @@
 FROM alpine:latest
 LABEL maintainer="Shashank Chitnis "
-LABEL description="This Dockerfile installs NGINX on alpine."
-RUN apk add --update nginx && \
-	rm -rf /var/cache/apk/* && \
-	mkdir -p /tmp/nginx/
+LABEL description="This Dockerfile installs node backend on alpine."
+RUN apk add --update nodejs && \
+	apk add --update npm && \
 
 COPY files/nginx.conf /etc/nginx/nginx.conf
 COPY files/default.conf /etc/nginx/conf.d/default.conf
 ADD files/html.tar.gz /usr/share/nginx/html
-COPY files/env1.txt /usr/share/nginx/html/assets/config/
 
-EXPOSE 80/tcp
+EXPOSE 3000/tcp
 
 ENTRYPOINT ["nginx"]
 # ENTRYPOINT ["/bin/sh"]
