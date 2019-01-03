@@ -25,7 +25,9 @@ kubectl apply -f base-nginx-deployment.yaml
 
 kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=kasc --docker-password=Ibm3i3ja --docker-email=chitnis.shashank@gmail.com
 
+kubectl exec -it <pod_name> -- /bin/sh
 
+kubectl describe service angular-nginx-lb
 __________________________________________________________________________________
                     Docker
 __________________________________________________________________________________
@@ -42,6 +44,9 @@ Volumes
 docker volume rm $(docker volume ls -q)
 Networks 
 docker network rm $(docker network ls -q)
+
+docker network inspect bridge
+docker network ls
 
 sudo docker run -d --rm --name nginx-app -p 8081:80 skc-nginx
 
