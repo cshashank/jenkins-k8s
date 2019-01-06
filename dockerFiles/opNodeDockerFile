@@ -1,0 +1,16 @@
+FROM alpine:latest
+LABEL maintainer="Shashank Chitnis "
+LABEL description="This Dockerfile installs node backend on alpine."
+RUN apk add --update nodejs && \
+	apk add --update npm
+
+ADD op_node_app.tar.gz /usr/share/nodeApp
+
+#ENTRYPOINT ["nginx"]
+# ENTRYPOINT ["/bin/sh"]
+#CMD ["-g", "daemon off;"]
+
+#Expose ports
+EXPOSE 80
+EXPOSE 443
+EXPOSE 3000/tcp
