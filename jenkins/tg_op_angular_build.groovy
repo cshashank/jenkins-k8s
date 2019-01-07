@@ -28,21 +28,11 @@ pipeline {
                 )
 			}
 		}
-    	stage('install angular-devkit') {
-			steps {
-			    echo "install angular-devkit"
-				dir(ANGULAR_APP_HOME) {
-			        sh "npm install --dev-save @angular-devkit/build-angular"
-				}
-			}
-		}	
-		stage('install angular/core, platform-browser-dynamic and tslib') {
+		stage('npm install') {
 			steps {
 				echo 'install angular/core, platform-browser-dynamic and tslib'
 				dir(ANGULAR_APP_HOME) {
-			        sh "npm install --dev-save @angular/core"
-                    sh "npm i @angular/platform-browser-dynamic"
-                    sh "npm i tslib"
+					sh "npm install"
 				}
 			}
 		}	
@@ -50,7 +40,7 @@ pipeline {
 			steps {
 				echo 'Building..'
 				dir(ANGULAR_APP_HOME) {
-	    	        sh "ng build"
+	    	        sh "ng build --configuration=qa"
 				}
 			}
 		}

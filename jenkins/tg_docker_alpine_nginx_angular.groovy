@@ -53,12 +53,12 @@ pipeline {
 				}
 			}
 		}
-		stage('Start angular-container for testing on IST port http://ec2-18-212-212-169.compute-1.amazonaws.com:8085') {
+		stage('Start angular-container for testing on IST port http://ec2-54-227-121-220.compute-1.amazonaws.com:8085') {
 			steps {
 			    echo "start container"
 				script{
 					try{
-						sh "docker stop j-nginx-app"
+						sh "docker stop "+DOCKER_CONTAINER
 					}catch(Exception e){
 						echo 'exception while stopping container'
 					}
