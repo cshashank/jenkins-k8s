@@ -10,6 +10,8 @@ ADD op_node_app.tar.gz /usr/share/nodeApp
 # ENTRYPOINT ["/bin/sh"]
 #CMD ["-g", "daemon off;"]
 
+ENV	MONGO=mongodb+srv://timbergrove:cloud20byline@ophanim2qa-wy5jo.mongodb.net/Ophanim2?retryWrites=true
+
 #Expose ports
 EXPOSE 80
 EXPOSE 443
