@@ -3,4 +3,4 @@ services:
 	web:
 		image: kasc/tg_angular_nginx
  back_end:
- 	image: op_node_app
+	image: op_node_app

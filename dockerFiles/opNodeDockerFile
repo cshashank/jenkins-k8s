@@ -6,11 +6,14 @@ RUN apk add --update nodejs && \
 
 ADD op_node_app.tar.gz /usr/share/nodeApp
 
+WORKDIR /usr/share/nodeApp
+
 #ENTRYPOINT ["nginx"]
 # ENTRYPOINT ["/bin/sh"]
-#CMD ["-g", "daemon off;"]
+CMD ["npm", "start"]
 
 ENV	MONGO=mongodb+srv://timbergrove:cloud20byline@ophanim2qa-wy5jo.mongodb.net/Ophanim2?retryWrites=true
+ENV SKC=tempSkc
 
 #Expose ports
 EXPOSE 80
