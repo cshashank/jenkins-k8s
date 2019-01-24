@@ -1,0 +1,10 @@
+FROM mongo:latest
+LABEL maintainer="Shashank Chitnis "
+LABEL description="This Dockerfile installs mongo and configures it to be public accessible."
+
+COPY mongoFiles/mongod.conf /etc/mongod.conf
+
+CMD ["mongod"]
+
+#Expose ports
+EXPOSE 27017
