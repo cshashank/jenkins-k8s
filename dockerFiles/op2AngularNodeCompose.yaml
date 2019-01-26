@@ -1,0 +1,16 @@
+version: '3'
+services:
+ web:
+  image: kasc/tg_angular_nginx
+  ports:
+   - "8085:80"
+  networks:
+   - webnet
+ backend:
+  image: op_node_app
+  ports:
+   - "3000:3000"
+  networks:
+   - webnet
+networks:
+ webnet:
