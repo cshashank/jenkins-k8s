@@ -1,3 +1,4 @@
+#docker image build -t timbergrove/ophanim2_node_app -f opNodeDockerFile .
 FROM alpine:latest
 LABEL maintainer="Shashank Chitnis "
 LABEL description="This Dockerfile installs node backend on alpine."
