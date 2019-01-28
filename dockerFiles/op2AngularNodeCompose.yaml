@@ -1,15 +1,21 @@
 version: '3'
 services:
  web:
-  image: kasc/tg_angular_nginx
+  image: timbergrove/ophanim2_angular_fe
   ports:
    - "8085:80"
   networks:
    - webnet
  backend:
-  image: op_node_app
+  image: timbergrove/ophanim2_node_app
   ports:
    - "3000:3000"
+  networks:
+   - webnet
+ op2mongodb:
+  image: timbergrove/ophanim2_mongo_db
+  ports:
+   - "27017:27017"
   networks:
    - webnet
 networks:
