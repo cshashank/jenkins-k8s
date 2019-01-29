@@ -13,7 +13,6 @@ WORKDIR /usr/share/nodeApp
 # ENTRYPOINT ["/bin/sh"]
 CMD ["npm", "start"]
 
-ENV MONGO=mongodb+srv://timbergrove:cloud20byline@ophanim2qa-wy5jo.mongodb.net/Ophanim2?retryWrites=true
 ENV SKC=tempSkc
 
 #Expose ports
