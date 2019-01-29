@@ -8,12 +8,16 @@ services:
    - webnet
  backend:
   image: timbergrove/ophanim2_node_app
+  environment:
+    - MONGO=mongodb://op2mongodb:27017/Ophanim2?retryWrites=true
+    - MONGO1=mongodb://ec2-54-227-121-220.compute-1.amazonaws.com:27017/Ophanim2?retryWrites=true
+    - MONGO_COMPOSE=mongodb+srv://op2mongodb:27017/Ophanim2?retryWrites=true
   ports:
    - "3000:3000"
   networks:
    - webnet
  op2mongodb:
-  image: timbergrove/ophanim2_mongo_db
+  image: timbergrove/ophanim2_mongo_db:v5
   ports:
    - "27017:27017"
   networks:
