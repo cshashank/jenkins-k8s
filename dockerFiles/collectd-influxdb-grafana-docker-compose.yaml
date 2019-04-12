@@ -18,9 +18,23 @@ services:
       - /var/lib/influxdb
       - ./influxdb.conf:/etc/influxdb/influxdb.conf
       - ./types.db:/usr/share/collectd/types.db:ro
+      # Mount for influxdb data directory
+      - ./influxdb/data:/var/lib/influxdb
+      # Mount for influxdb configuration
+      - ./influxdb/config/:/etc/influxdb/
   grafana:
     image: grafana/grafana:3.1.1
     ports:
       - "3001:3000"
     volumes:
       - /var/lib/grafana
+  chronograf:
+    image: chronograf:latest
+    volumes:
+      # Mount for chronograf database
+      - ./chronograf/data/:/var/lib/chronograf/
+    ports:
+      # The WebUI for Chronograf is served on port 8888
+      - "8888:8888"
+    depends_on:
+      - influxdb      
