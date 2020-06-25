@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+ web:
+  image: shashank/op_angular_fe
+  ports:
+   - "8085:80"
+  networks:
+   - webnet
+ backend:
+  image: shashank/op_node_app
+  environment:
+    - MONGO=mongodb://mongodb:27017/op?retryWrites=true
+    - MONGO_COMPOSE=mongodb+srv://mongodb:27017/op?retryWrites=true
+  ports:
+   - "3000:3000"
+  networks:
+   - webnet
+ mongodb:
+  image: shashank/op_mongo_db:v5
+  ports:
+   - "27017:27017"
+  networks:
+   - webnet
+networks:
+ webnet:

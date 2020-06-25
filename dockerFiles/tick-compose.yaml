@@ -35,6 +35,8 @@ services:
 		environment:
 			KAPACITOR_HOSTNAME: kapacitor
 			KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
+		volumes:
+			- ./kapacitor/scripts:/var/kapacitor/scripts
 		networks:
 			- ticknet
 		ports:
