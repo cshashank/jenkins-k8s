@@ -59,7 +59,7 @@ pipeline {
 			    echo "build docker image with tag ${docker_tag}"
 				echo "docker build -t "+DOCKER_IMAGE+"  -f nginxDockerFile ."
 				dir(DOCKER_CONFIG_LOCAL+'/dockerFiles') {
-					sh "docker build -t "+DOCKER_IMAGE+" -f nginxDockerFile ."
+					sh "docker build -t "+DOCKER_IMAGE+"${docker_tag} -f nginxDockerFile ."
 				}
 			}
 		}
