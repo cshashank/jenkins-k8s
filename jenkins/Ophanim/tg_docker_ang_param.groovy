@@ -17,9 +17,9 @@ pipeline {
 	environment{
         JENKINS_GIT_REPO = 'https://github.com/Timbergrove/ophanim-2-angular-app/'
         DOCKER_CONFIG_GITHUB = 'https://github.com/Timbergrove/ophanim-2-docker-config'
-        DOCKER_IMAGE = 'timbergrove/ophanim2_angular_fe:'
+        DOCKER_IMAGE = "timbergrove/ophanim2_angular_fe:"
         DOCKER_CONTAINER = 'j_nginx_app'
-		ANGULAR_BUILD_TAR = '/var/lib/jenkins/workspace/d_ophanim2_fe/html.tar.gz'
+		ANGULAR_BUILD_TAR = "/var/lib/jenkins/workspace/d_ophanim2_fe/html-${git_branch}.tar.gz"
 		DOCKER_ALPINE_NGINX_ANGULAR_WS = '/var/lib/jenkins/workspace/tg_docker_alpine_nginx_angular/'
 		DOCKER_CONFIG_LOCAL = '/home/ubuntu/ophanim2_docker/ophanim-2-docker-config'
 	}
@@ -57,19 +57,19 @@ pipeline {
 		stage('build docker image') {
 			steps {
 			    echo "build docker image with tag ${docker_tag}"
-				echo "docker build -t "+DOCKER_IMAGE${docker_tag}+" -f nginxDockerFile ."
+				echo "docker build -t "+DOCKER_IMAGE+"  -f nginxDockerFile ."
 				dir(DOCKER_CONFIG_LOCAL+'/dockerFiles') {
-					sh "docker build -t "+DOCKER_IMAGE${docker_tag}+" -f nginxDockerFile ."
+					sh "docker build -t "+DOCKER_IMAGE+" -f nginxDockerFile ."
 				}
 			}
 		}
 		stage('push docker image to repository') {
 			steps {
-				echo "push docker image to repository"
+				echo "push docker image to repository "+DOCKER_IMAGE
 				dir('/var/lib/jenkins/bin') {
 				    withCredentials([usernamePassword(credentialsId: 'ca2f1ead-36a6-4e82-a00a-6a281baeaffb', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                         sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-					    sh "docker push timbergrove/ophanim2_angular_fe:latest"
+					    sh "docker push timbergrove/ophanim2_angular_fe:${docker_tag}"
 				    }
 				}
 			}

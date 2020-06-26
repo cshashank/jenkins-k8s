@@ -1,3 +1,4 @@
  docker-compose  -f op2AngularNodeCompose.yaml up -d
  docker-compose  -f op2AngularNodeCompose.yaml down
  docker-compose  -f op2AngularNodeCompose.yaml  exec op2mongodb /var/scripts/mongoDbImport.sh
+docker rmi $(docker images -q -f dangling=true)
