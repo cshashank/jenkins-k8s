@@ -19,7 +19,7 @@ pipeline {
         DOCKER_CONFIG_GITHUB = 'https://github.com/Timbergrove/ophanim-2-docker-config'
         DOCKER_IMAGE = "timbergrove/ophanim2_angular_fe:"
         DOCKER_CONTAINER = 'j_nginx_app'
-		ANGULAR_BUILD_TAR = "/var/lib/jenkins/workspace/d_ophanim2_fe/html-${git_branch}.tar.gz"
+		ANGULAR_BUILD_TAR = "/var/lib/jenkins/workspace/d_ophanim2_fe/html-${docker_tag}.tar.gz"
 		DOCKER_ALPINE_NGINX_ANGULAR_WS = '/var/lib/jenkins/workspace/tg_docker_alpine_nginx_angular/'
 		DOCKER_CONFIG_LOCAL = '/home/ubuntu/ophanim2_docker/ophanim-2-docker-config'
 	}
