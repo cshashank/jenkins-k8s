@@ -74,5 +74,14 @@ pipeline {
 				}
 			}
 		}
+		stage('delete dangling images') {
+			steps {
+				echo "delete dangling images to free up space"
+				dir('/var/lib/jenkins/bin') {
+						sh "image_count=docker images -f 'dangling=true' -q|wc -l"
+						sh "if [ \$image_count != '0'] ; then docker rmi -f \$(docker images -f 'dangling=true' -q); fi"
+				}
+			}
+		}	
 	}
 }
