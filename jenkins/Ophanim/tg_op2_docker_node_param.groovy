@@ -96,11 +96,21 @@ pipeline {
 					// sh "./docker_login.sh"
 				    withCredentials([usernamePassword(credentialsId: 'ca2f1ead-36a6-4e82-a00a-6a281baeaffb', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
 						sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-						sh "docker rmi -f \$(docker images -f 'dangling=true' -q)"
 						sh "docker push "+DOCKER_IMAGE
 					}
 				}
 			}
+		}
+		stage('delete dangling images') {
+			steps {
+				echo "delete dangling images to free up space"
+				dir('/var/lib/jenkins/bin') {
+						sh "image_count=docker images -f 'dangling=true' -q|wc -l"
+						sh "if [ \$image_count != '0'] ; then docker rmi -f \$(docker images -f 'dangling=true' -q); fi"
+				}
+			}
 		}	
 	}
+
 }
+
