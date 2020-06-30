@@ -6,13 +6,12 @@ pipeline {
 		DOCKER_IMAGE = "timbergrove/ophanim2_node_app:${git_branch}"
 		NODE_APP_HOME = '/var/lib/jenkins/workspace/tg_op_node_app_build'
 		NODE_APP_DIST = '/var/lib/jenkins/workspace/tg_op_node_app_build/dist'
-		NODE_APP_TAR = '/var/lib/jenkins/workspace/tg_op_node_app_build/op_node_app.tar.gz'
 		DOCKER_ALPINE_NGINX_ANGULAR_WS = '/var/lib/jenkins/workspace/tg_docker_alpine_nginx_angular/'
 		DOCKER_CONFIG_LOCAL = '/home/ubuntu/ophanim2_docker/ophanim-2-docker-config'
 		DOCKER_CONFIG_GITHUB = 'https://github.com/Timbergrove/ophanim-2-docker-config'
 		//${git_branch} parameter passed from the pipeline
-		GIT_BRANCH=${git_branch}
-		TAR_FILE=="op_node_app_${git_branch}.tar.gz"
+		GIT_BRANCH="${git_branch}"
+		TAR_FILE = "op_node_app_${git_branch}.tar.gz"
 	}
 
 	stages {
@@ -30,7 +29,7 @@ pipeline {
 			    dir(DOCKER_CONFIG_LOCAL){
 					git(
 							url: DOCKER_CONFIG_GITHUB,
-							credentialsId: 'tg_jenkin_uid_pwd',
+							credentialsId: 'aeb4de6e-4a73-4673-a7e2-b4f61b93dfe8',
 							branch: "master"
 					)
 				}
@@ -43,7 +42,7 @@ pipeline {
 				dir(NODE_APP_DIST){
 					git(
 							url: GIT_REPO,
-							credentialsId: 'tg_jenkin_uid_pwd',
+							credentialsId: 'aeb4de6e-4a73-4673-a7e2-b4f61b93dfe8',
 							branch: GIT_BRANCH
 					)
 				}
@@ -69,7 +68,7 @@ pipeline {
 			steps {
 			    echo "copy dist tar from node build"
 				dir(NODE_APP_HOME+'/dockerFiles') {
-				    sh "cp "+NODE_APP_TAR+" ."
+				    sh "cp "+NODE_APP_HOME+TAR_FILE+" ."
 				}
 			}
 		}
