@@ -11,7 +11,7 @@ pipeline {
 		DOCKER_CONFIG_GITHUB = 'https://github.com/Timbergrove/ophanim-2-docker-config'
 		//${git_branch} parameter passed from the pipeline
 		GIT_BRANCH="${git_branch}"
-		TAR_FILE = "op_node_app_${git_branch}.tar.gz"
+		TAR_FILE = "op_node_app.tar.gz"
 	}
 
 	stages {
@@ -68,7 +68,7 @@ pipeline {
 			steps {
 			    echo "copy dist tar from node build"
 				dir(NODE_APP_HOME+'/dockerFiles') {
-				    sh "cp "+NODE_APP_HOME+TAR_FILE+" ."
+				    sh "cp "+NODE_APP_HOME+"/"+TAR_FILE+" ."
 				}
 			}
 		}
@@ -93,8 +93,12 @@ pipeline {
 			steps {
 				echo "push docker image to repository"
 				dir('/var/lib/jenkins/bin') {
-					sh "./docker_login.sh"
-					sh "docker push "+DOCKER_IMAGE
+					// sh "./docker_login.sh"
+				    withCredentials([usernamePassword(credentialsId: 'ca2f1ead-36a6-4e82-a00a-6a281baeaffb', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+						sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+						sh "docker rmi -f $(docker images -f 'dangling=true' -q)"
+						sh "docker push "+DOCKER_IMAGE
+					}
 				}
 			}
 		}	

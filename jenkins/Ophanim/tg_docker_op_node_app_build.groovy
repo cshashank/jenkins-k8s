@@ -28,7 +28,7 @@ pipeline {
 			    dir(DOCKER_CONFIG_LOCAL){
 					git(
 							url: DOCKER_CONFIG_GITHUB,
-							credentialsId: 'tg_jenkin_uid_pwd',
+							credentialsId: 'aeb4de6e-4a73-4673-a7e2-b4f61b93dfe8',
 							branch: "master"
 					)
 				}
@@ -42,7 +42,7 @@ pipeline {
 				dir(NODE_APP_DIST){
 					git(
 							url: GIT_REPO,
-							credentialsId: 'tg_jenkin_uid_pwd',
+							credentialsId: 'aeb4de6e-4a73-4673-a7e2-b4f61b93dfe8',
 							branch: "master"
 					)
 				}
@@ -95,8 +95,11 @@ pipeline {
 			steps {
 				echo "push docker image to repository"
 				dir('/var/lib/jenkins/bin') {
-					sh "./docker_login.sh"
+				    withCredentials([usernamePassword(credentialsId: 'ca2f1ead-36a6-4e82-a00a-6a281baeaffb', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+				// 	sh "./docker_login.sh"
 					sh "docker push timbergrove/ophanim2_node_app:latest"
+				    }
 				}
 			}
 		}	
