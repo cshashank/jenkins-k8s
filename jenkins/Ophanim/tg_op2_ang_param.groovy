@@ -51,7 +51,7 @@ pipeline {
 			steps {
 				echo 'Tar build for docker'
 				dir(ANGULAR_APP_HOME) {
-					sh "tar -zcvf html-${git_branch}.tar.gz -C dist/ophanim-ui/ ."
+					sh "tar -zcvf html.tar.gz -C dist/ophanim-ui/ ."
 				}
 			}
 		}
