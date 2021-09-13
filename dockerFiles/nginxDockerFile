@@ -1,3 +1,4 @@
+#Image name - timbergrove/op2nginxfe
 FROM alpine:latest
 LABEL maintainer="Shashank Chitnis "
 LABEL description="This Dockerfile installs NGINX on alpine."
